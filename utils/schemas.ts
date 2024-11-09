@@ -9,7 +9,7 @@ export const profileSchema = z.object({
 
 // create a function and use it as we are using the same validation in multiple places
 export function validateWithZodSchema<T>(
-  schema: ZodSchema<T>,
+  schema: ZodSchema<T>, // profile schema, imageschema, etc
   data: unknown
 ): T {
   const result = schema.safeParse(data);
@@ -20,3 +20,24 @@ export function validateWithZodSchema<T>(
   }
   return result.data;
 }
+
+export const imageSchema = z.object({
+  image: validateFile(),
+});
+
+
+function validateFile() {
+  const maxUploadSize = 1024 * 1024;
+  const acceptedFileTypes = ['image/'];
+  return z
+    .any()
+    .refine((file) => {
+      return !file || file.size <= maxUploadSize;
+    }, `File size must be less than 1 MB`)
+    .refine((file) => {
+      return (
+        !file || acceptedFileTypes.some((type) => file.type.startsWith(type))
+      );
+    }, 'File must be an image');
+}
+
