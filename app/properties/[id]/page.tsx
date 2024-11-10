@@ -7,12 +7,15 @@ import BookingCalendar from "@/components/properties/Booking/BookingCalendar";
 import PropertyDetails from "@/components/properties/PropertyDetails";
 import { fetchPropertyDetails } from "@/utils/actions";
 import { redirect } from "next/navigation";
+import UserInfo from "@/components/properties/UserInfo";
 
 async function PropertyDetailsPage({ params }: { params: { id: string } }) {
   const property = await fetchPropertyDetails(params.id);
   if (!property) redirect("/");
   const { baths, bedrooms, beds, guests } = property;
   const details = { baths, bedrooms, beds, guests };
+  const firstName = property.profile.firstName;
+  const profileImage = property.profile.profileImage;
   return (
     <section>
       <BreadCrumbs name={property.name} />
@@ -31,6 +34,7 @@ async function PropertyDetailsPage({ params }: { params: { id: string } }) {
             <PropertyRating inPage propertyId={property.id} />
           </div>
           <PropertyDetails details={details} />
+          <UserInfo profile={{ firstName, profileImage }} />
         </div>
         <div className="lg:col-span-4 flex flex-col items-center">
           <BookingCalendar />

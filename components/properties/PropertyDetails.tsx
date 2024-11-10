@@ -1,13 +1,5 @@
 import { formatQuantity } from "@/utils/format";
-
-type PropertyDetailsProps = {
-  details: {
-    bedrooms: number;
-    baths: number;
-    guests: number;
-    beds: number;
-  };
-};
+import { PropertyDetailsProps } from "@/utils/types";
 
 function PropertyDetails({
   details: { bedrooms, baths, guests, beds },
