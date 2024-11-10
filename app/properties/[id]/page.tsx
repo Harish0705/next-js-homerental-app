@@ -8,6 +8,8 @@ import PropertyDetails from "@/components/properties/PropertyDetails";
 import { fetchPropertyDetails } from "@/utils/actions";
 import { redirect } from "next/navigation";
 import UserInfo from "@/components/properties/UserInfo";
+import { Separator } from "@/components/ui/separator";
+import Description from "@/components/properties/Description";
 
 async function PropertyDetailsPage({ params }: { params: { id: string } }) {
   const property = await fetchPropertyDetails(params.id);
@@ -35,6 +37,8 @@ async function PropertyDetailsPage({ params }: { params: { id: string } }) {
           </div>
           <PropertyDetails details={details} />
           <UserInfo profile={{ firstName, profileImage }} />
+          <Separator className="mt-4" />
+          <Description description={property.description} />
         </div>
         <div className="lg:col-span-4 flex flex-col items-center">
           <BookingCalendar />
