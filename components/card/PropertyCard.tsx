@@ -4,7 +4,7 @@ import CountryFlagAndName from "./CountryFlagAndName";
 import { PropertyCardProps } from "@/utils/types";
 import { formatCurrency } from "@/utils/format";
 import PropertyRating from "./PropertyRating";
-import FavoriteToggleButton from "./FavoriteToggleButton";
+import FavouriteToggleButton from "./FavouriteToggleButton";
 
 function PropertyCard({ property }: { property: PropertyCardProps }) {
   const { name, image, price } = property;
@@ -41,7 +41,7 @@ function PropertyCard({ property }: { property: PropertyCardProps }) {
       </Link>
 
       <div className="absolute top-5 right-5 z-5">
-        <FavoriteToggleButton propertyId={propertyId} />
+        <FavouriteToggleButton propertyId={propertyId} />
       </div>
     </article>
   );
