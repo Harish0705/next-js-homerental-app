@@ -19,6 +19,7 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '2mb',
     },
   },
+  reactStrictMode: false // workaround to fix react-leaflet map container issue
 };
 
 export default nextConfig;
