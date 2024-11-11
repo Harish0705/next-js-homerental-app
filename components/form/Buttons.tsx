@@ -1,5 +1,6 @@
 "use client";
 import { AiOutlineReload } from "react-icons/ai";
+import { LuTrash2, LuPenSquare } from "react-icons/lu";
 import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { SignInButton } from "@clerk/nextjs";
@@ -70,6 +71,35 @@ export const CardSubmitButton = ({ isFavourite }: { isFavourite: boolean }) => {
       ) : (
         <FaRegHeart />
       )}
+    </Button>
+  );
+};
+
+type actionType = "edit" | "delete";
+
+export const IconButton = ({ actionType }: { actionType: actionType }) => {
+  const { pending } = useFormStatus();
+
+  const renderIcon = () => {
+    switch (actionType) {
+      case "edit":
+        return <LuPenSquare />;
+      case "delete":
+        return <LuTrash2 />;
+      default:
+        const never: never = actionType;
+        throw new Error(`Invalid action type: ${never}`);
+    }
+  };
+
+  return (
+    <Button
+      type="submit"
+      size="icon"
+      variant="link"
+      className="p-2 cursor-pointer"
+    >
+      {pending ? <AiOutlineReload className=" animate-spin" /> : renderIcon()}
     </Button>
   );
 };
