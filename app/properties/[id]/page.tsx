@@ -3,7 +3,6 @@ import PropertyRating from "@/components/card/PropertyRating";
 import BreadCrumbs from "@/components/properties/BreadCrumbs";
 import ImageContainer from "@/components/properties/ImageContainer";
 import ShareButton from "@/components/properties/ShareButton";
-import BookingCalendar from "@/components/properties/Booking/BookingCalendar";
 import PropertyDetails from "@/components/properties/PropertyDetails";
 import { fetchPropertyDetails, findExistingReview } from "@/utils/actions";
 import { redirect } from "next/navigation";
@@ -15,6 +14,15 @@ import DynamicMap from "@/components/properties/DynamicMap";
 import SubmitReview from "@/components/reviews/SubmitReview";
 import PropertyReviews from "@/components/reviews/PropertyReviews";
 import { auth } from "@clerk/nextjs/server";
+import dynamic from "next/dynamic";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const DynamicBookingWrapper = dynamic(
+  () => import("@/components/properties/Booking/BookingWrapper"),
+  {
+    loading: () => <Skeleton className="h-[200px] w-full" />,
+  }
+);
 
 async function PropertyDetailsPage({ params }: { params: { id: string } }) {
   const property = await fetchPropertyDetails(params.id);
@@ -52,7 +60,11 @@ async function PropertyDetailsPage({ params }: { params: { id: string } }) {
           <DynamicMap countryCode={property.country} />
         </div>
         <div className="lg:col-span-4 flex flex-col items-center">
-          <BookingCalendar />
+          <DynamicBookingWrapper
+            propertyId={property.id}
+            price={property.price}
+            bookings={property.bookings}
+          />
         </div>
       </section>
       {reviewDoesNotExist && <SubmitReview propertyId={property.id} />}
